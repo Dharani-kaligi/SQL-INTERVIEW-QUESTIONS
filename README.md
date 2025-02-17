@@ -47,9 +47,9 @@ Whereas DBMS is a database management system it is a software that is used to ma
 9. What is difference between DML, DDL and DCL?
 10. Which is faster between CTE and Subquery?
 11. What are constraints and types of Constraints?
-12. What is normalization?
+## 12. What is normalization?
 13. Difference between Group By and Where Clause?
-14. Explain View concepts ?
+## 14. Explain View concepts ?
 15. What are different types of constraints?
 16. Difference between char and Varchar?
 17. What is an index? Explain its different types.
@@ -59,29 +59,77 @@ Whereas DBMS is a database management system it is a software that is used to ma
 27. What are the various types of relationships in SQL?
 28. Difference between Primary Key and Foreign Key?
 29. What is the difference between where and having?
-30. Find the second highest salary of an employee?
-31. Difference between Function and Store procedure ?
-32. How would you optimize a slow SQL query?
-33. Difference between INNER JOIN and OUTER JOIN?
-34. How do you handle duplicate rows in a SQL query?
-35. Write a SQL query to find the top 3 departments with the highest average salary.
-36. Write a SQL query to find the employees who have the same name and work in the same department.
-37. Write a SQL query to find the departments with no employees.
-38. How do you use indexing to improve SQL query performance?
-39. Write a SQL query to find the employees who have worked for more than 5 years.
-40. What is the difference between SUBQUERY and JOIN?
-41. Write a SQL query to find the top 2 products with the highest sales.
-42. How do you use stored procedures to improve SQL query performance?
-43. Write a SQL query to find the customers who have placed an order but have not made a payment.
-44. Write a SQL query to find the employees who work in the same department as their manager.
-45. How do you use window functions to solve complex queries?
-46. Write a SQL query to find the top 3 products with the highest average price.
-47. Write a SQL query to find the employees who have not taken any leave in the last 6 months.
-48. Write down various types of relationships in SQL?
-49. What is the difference between Cluster and Non-Cluster Index?
-50. Why do we use Commit and Rollback commands?
-51. What are indexes in SQL?
-52. What are aggregate functions? Can you name a few?
+## 30. Find the second highest salary of an employee?
+ SELECT salary, id
+FROM table_name
+ORDER BY salary DESC
+OFFSET 1 ROWS FETCH NEXT 1 ROW ONLY;
+
+## 32. Difference between Function and Store procedure ?
+## 33. How would you optimize a slow SQL query?
+34. Difference between INNER JOIN and OUTER JOIN?
+35. How do you handle duplicate rows in a SQL query?
+36. Write a SQL query to find the top 3 departments with the highest average salary.
+37. Write a SQL query to find the employees who have the same name and work in the same department.
+38. Write a SQL query to find the departments with no employees.
+## 39. How do you use indexing to improve SQL query performance?
+## 40. Write a SQL query to find the employees who have worked for more than 5 years.
+
+
+select * from 
+[dbo].[employ]
+where datediff(year,hire_date, getdate())>10
+
+41. What is the difference between SUBQUERY and JOIN?
+42. Write a SQL query to find the top 2 products with the highest sales.
+## 43. How do you use stored procedures to improve SQL query performance?
+## 44. Write a SQL query to find the customers who have placed an order but have not made a payment.
+45. Write a SQL query to find the employees who work in the same department as their manager.
+## 46. How do you use window functions to solve complex queries?
+## 47. Write a SQL query to find the top 3 products with the highest average price.
+## 48. Write a SQL query to find the employees who have not taken any leave in the last 6 months.
+## 49. Write down various types of relationships in SQL?
+## 50. What is the difference between Cluster and Non-Cluster Index?
+51. Why do we use Commit and Rollback commands?
+52. What are indexes in SQL?
+53. What are aggregate functions? Can you name a few?
+
+    ## calclulate no of iteams in a string?
+
+select id, [values],
+case 
+    when [values] is null or [values] = '' then 0 
+    else (LEN([values]) - len(replace([values], ',', '')) + 1) 
+end as item_count
+from  [dbo].[your_table]
+
+
+## query to get to know the 3 consecutive empty seats in movie theatre
+
+with cte as 
+(
+select * 
+lag(is_empty, 1)over(order by sear_no) as previous_1,
+lag(is_empty, 2) over(order by seat_no) as previous_2,
+lead(is_empty, 1)over(order by seat_no) as next_1,
+lead(is_empty, 2) over(order by seat_no) as next _2
+from table
+)
+select * from cte 
+where (is_empty = 'Y' and previous_1 = 'y' and previous_2 = 'y') or
+      (is_empty = 'Y' and previous_1 = 'y' and next_1 = 'y') or
+	  (is_empty =' Y' and next_1 = 'y' and next_2 = 'y')
+
+
+## Self recursive / self join problem
+
+select * from employees
+
+SELECT e.e_name as Employee_name, m.e_name as Manager_name
+from employees e
+join employees m
+on e.m_id = m.e_id
+
 
 
 
